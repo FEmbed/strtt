@@ -1,5 +1,8 @@
 # excluded paths
+cmake-build-*
 build/
 ipch/
 lib/
 info.txt
+/.idea
+/cmake-ubuntu

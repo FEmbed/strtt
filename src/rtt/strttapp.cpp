@@ -136,12 +136,15 @@ int main(int argc, char **argv)
     // res = strtt->getIdCode(&idCode);
 
     // find rtt
-    res = strtt->findRtt(_ramKB);
-    if (res != ERROR_OK)
+    while (strtt->findRtt(_ramKB) != ERROR_OK)
     {
-        LOG_ERROR("failed to find RTT (%d)", res);
-        exit(-1);
+        usleep(10000);
     }
+//    if (res != ERROR_OK)
+//    {
+//        LOG_ERROR("failed to find RTT (%d)", res);
+//        exit(-1);
+//    }
 
     // get channels description
     strtt->getRttDesc();

@@ -152,7 +152,7 @@ int StRtt::findRtt(uint32_t ramKbytes)
     // find SEGGER_RTT_CB address -------------------------------------------------------
 
     const char *strSeggerRtt = "SEGGER RTT";
-
+    bool found_rtt = false;
     for (uint32_t offset = 0; offset < (ramKbytes * 1024) - 16; offset++)
     {
         if (strncmp((char *)&this->_memory[offset], strSeggerRtt, 16) == 0)
@@ -162,14 +162,15 @@ int StRtt::findRtt(uint32_t ramKbytes)
             // sizeof(acID[16] + MaxNumUpBuffers +  MaxNumDownBuffers)
             this->_rtt_info.pRttDescription = (SEGGER_RTT_CB *)&this->_memory[offset];
             this->_rtt_info.offset = offset;
+            found_rtt = true;
             break;
         }
     }
 
     // check results --------------------------------------------------------------------
-    if (this->_rtt_info.offset == 0)
+    if (!found_rtt)
     {
-        LOG_ERROR("RTT not found");
+//        LOG_ERROR("RTT not found");
         STOP_TS;
         return -1;
     }
